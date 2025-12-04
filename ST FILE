@@ -11,7 +11,7 @@ PB1_Reset := TON_1.Q;
 Counter3(PB1_Activate AND _IO_EM_DI_00, Final_Reset, 1000);
 
 (* Force the DINT CV from Counter3 into an INT for the rest of the logic *)
-PB2_Num := INT(Counter3.CV);
+PB2_Num := DINT_TO_INT(Counter3.CV);
 
 (* Calculate factorial of PB2_Num *)
 (* Use 1–7 only: 8! overflows INT (max 32767) *)
