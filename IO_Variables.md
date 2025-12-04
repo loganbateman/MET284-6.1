@@ -15,6 +15,10 @@
 | `FactorialResult` | INT | Precomputed factorial of `PB2_Num` via a CASE lookup (1–7) to avoid `FOR` loop type issues. |
 | `FactorialTime` | TIME | Millisecond duration derived directly from the factorial lookup (e.g., `PB2_Num = 5` → `T#120ms`). |
 | `i` | INT | (Unused in lookup version) Loop index retained if you revert to a `FOR` loop factorial calculation. |
+| `PB2_Num` | INT | Number of valid pushbutton activations used as the factorial input (clamped to the `INT` range). |
+| `FactorialResult` | INT | Computed factorial of `PB2_Num` (limited to 1–7 to avoid `INT` overflow). |
+| `FactorialTime` | TIME | Millisecond duration derived from `FactorialResult` (`T#1ms * FactorialResult`) for `TON_2`. |
+| `i` | INT | Loop index for the factorial `FOR` loop. |
 | `TON_1` | TON Function Block | 1-second timer that creates the reset pulse for `Counter1`. |
 | `TON_2` | TON Function Block | Timer that keeps the green stack light on for the factorial-derived duration. |
 
