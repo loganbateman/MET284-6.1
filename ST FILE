@@ -10,28 +10,31 @@ PB1_Reset := TON_1.Q;
 (* Count number of valid green button activations into Counter3 *)
 Counter3(PB1_Activate AND _IO_EM_DI_00, Final_Reset, 1000);
 
-(* Force the DINT CV from Counter3 into an INT for the rest of the logic *)
-PB2_Num := INT(Counter3.CV);
+(* Capture the Counter3 CV and coerce to INT for the rest of the logic *)
+PB2_Num := TO_INT(Counter3.CV);
 
-(* Calculate factorial of PB2_Num *)
-(* Use 1–7 only: 8! overflows INT (max 32767) *)
-IF (PB2_Num > 0) AND (PB2_Num <= 7) THEN
-    FactorialResult := 1;
-
-    FOR i := 1 TO PB2_Num DO
-        FactorialResult := FactorialResult * i;
-    END_FOR;
-
-    FactorialTime := FactorialResult;   (* interpret as milliseconds, e.g. 5! = 120ms *)
-ELSE
-    FactorialTime := 0;                 (* safe default if out of range / zero *)
+(* Calculate factorial of PB2_Num without a FOR loop (precomputed lookup) *)
+FactorialResult := 0;
+FactorialTime := T#0ms;
+IF PB2_Num > 0 THEN
+    CASE PB2_Num OF
+        1:  FactorialResult := 1;    FactorialTime := T#1ms;    (* 1! = 1 ms *)
+        2:  FactorialResult := 2;    FactorialTime := T#2ms;    (* 2! = 2 ms *)
+        3:  FactorialResult := 6;    FactorialTime := T#6ms;    (* 3! = 6 ms *)
+        4:  FactorialResult := 24;   FactorialTime := T#24ms;   (* 4! = 24 ms *)
+        5:  FactorialResult := 120;  FactorialTime := T#120ms;  (* 5! = 120 ms *)
+        6:  FactorialResult := 720;  FactorialTime := T#720ms;  (* 6! = 720 ms *)
+        7:  FactorialResult := 5040; FactorialTime := T#5040ms; (* 7! = 5040 ms *)
+        ELSE
+            FactorialResult := 0;    FactorialTime := T#0ms;    (* out of range: safe default *)
+    END_CASE;
 END_IF;
 
 (* Red pushbutton: use factorial value as ON time for green stack light *)
 IF _IO_EM_DI_01 THEN
-    TON_2(IN := TRUE, PT := INT_TO_TIME(FactorialTime));
+    TON_2(IN := TRUE, PT := FactorialTime);
 ELSE
-    TON_2(IN := FALSE, PT := INT_TO_TIME(FactorialTime));
+    TON_2(IN := FALSE, PT := FactorialTime);
 END_IF;
 
 _IO_EM_DO_00 := TON_2.Q;
