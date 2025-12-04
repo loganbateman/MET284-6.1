@@ -24,6 +24,7 @@ The structured text program cannot be compiled in this environment because Conne
 4. Press and hold the red pushbutton (`_IO_EM_DI_01`): `TON_2` should hold `_IO_EM_DO_00` TRUE for `FactorialTime`. When the timer finishes, `Final_Reset` should pulse to clear the counters.
 
 ## Troubleshooting tips
+- If you still see a type error on `PB2_Num`, confirm it is declared as `INT` (or another integer type) and that `TO_INT(Counter3.CV)` is accepted in your controller revision. If not, replace `TO_INT` with an equivalent CCW-supported INT conversion.
 - If you still see a type error on `PB2_Num`, confirm it is declared as `DINT` and that it is assigned directly from `Counter3.CV`.
 - If you still see a type error on `PB2_Num`, confirm it is declared as `INT` and that the assignment uses `DINT_TO_INT(Counter3.CV)`.
 - Ensure both timers `TON_1` and `TON_2` are declared as `TON` function block instances.
