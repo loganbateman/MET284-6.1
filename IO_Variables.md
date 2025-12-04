@@ -13,7 +13,7 @@
 | `Final_Reset` | BOOL | Reset signal shared by all counters after the factorial-timed pulse completes. |
 | `PB2_Num` | INT | Number of valid pushbutton activations used as the factorial input (clamped to the `INT` range). |
 | `FactorialResult` | INT | Computed factorial of `PB2_Num` (limited to 1–7 to avoid `INT` overflow). |
-| `FactorialTime` | TIME | Millisecond duration derived from `FactorialResult` for `TON_2`. |
+| `FactorialTime` | TIME | Millisecond duration derived from `FactorialResult` (`T#1ms * FactorialResult`) for `TON_2`. |
 | `i` | INT | Loop index for the factorial `FOR` loop. |
 | `TON_1` | TON Function Block | 1-second timer that creates the reset pulse for `Counter1`. |
 | `TON_2` | TON Function Block | Timer that keeps the green stack light on for the factorial-derived duration. |

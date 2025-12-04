@@ -22,7 +22,7 @@ IF (PB2_Num > 0) AND (PB2_Num <= 7) THEN
         FactorialResult := FactorialResult * i;
     END_FOR;
 
-    FactorialTime := INT_TO_TIME(FactorialResult);   (* interpret as milliseconds, e.g. 5! = 120ms *)
+    FactorialTime := T#1ms * FactorialResult;   (* interpret as milliseconds, e.g. 5! = 120ms *)
 ELSE
     FactorialTime := T#0ms;                 (* safe default if out of range / zero *)
 END_IF;
