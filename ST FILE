@@ -10,6 +10,8 @@ PB1_Reset := TON_1.Q;
 (* Count number of valid green button activations into Counter3 *)
 Counter3(PB1_Activate AND _IO_EM_DI_00, Final_Reset, 1000);
 
+(* Capture the Counter3 CV directly (declared as DINT) for the rest of the logic *)
+PB2_Num := Counter3.CV;
 (* Force the DINT CV from Counter3 into an INT for the rest of the logic *)
 PB2_Num := DINT_TO_INT(Counter3.CV);
 
