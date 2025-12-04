@@ -11,7 +11,7 @@ PB1_Reset := TON_1.Q;
 Counter3(PB1_Activate AND _IO_EM_DI_00, Final_Reset, 1000);
 
 (* Force the DINT CV from Counter3 into an INT for the rest of the logic *)
-PB2_Num := INT(Counter3.CV);
+PB2_Num := DINT_TO_INT(Counter3.CV);
 
 (* Calculate factorial of PB2_Num *)
 (* Use 1–7 only: 8! overflows INT (max 32767) *)
@@ -22,16 +22,16 @@ IF (PB2_Num > 0) AND (PB2_Num <= 7) THEN
         FactorialResult := FactorialResult * i;
     END_FOR;
 
-    FactorialTime := FactorialResult;   (* interpret as milliseconds, e.g. 5! = 120ms *)
+    FactorialTime := T#1ms * FactorialResult;   (* interpret as milliseconds, e.g. 5! = 120ms *)
 ELSE
-    FactorialTime := 0;                 (* safe default if out of range / zero *)
+    FactorialTime := T#0ms;                 (* safe default if out of range / zero *)
 END_IF;
 
 (* Red pushbutton: use factorial value as ON time for green stack light *)
 IF _IO_EM_DI_01 THEN
-    TON_2(IN := TRUE, PT := INT_TO_TIME(FactorialTime));
+    TON_2(IN := TRUE, PT := FactorialTime);
 ELSE
-    TON_2(IN := FALSE, PT := INT_TO_TIME(FactorialTime));
+    TON_2(IN := FALSE, PT := FactorialTime);
 END_IF;
 
 _IO_EM_DO_00 := TON_2.Q;
