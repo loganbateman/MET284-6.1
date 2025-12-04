@@ -25,6 +25,8 @@ The structured text program cannot be compiled in this environment because Conne
 
 ## Troubleshooting tips
 - If you still see a type error on `PB2_Num`, confirm it is declared as `INT` (or another integer type) and that `TO_INT(Counter3.CV)` is accepted in your controller revision. If not, replace `TO_INT` with an equivalent CCW-supported INT conversion.
+- If you still see a type error on `PB2_Num`, confirm it is declared as `DINT` and that it is assigned directly from `Counter3.CV`.
+- If you still see a type error on `PB2_Num`, confirm it is declared as `INT` and that the assignment uses `DINT_TO_INT(Counter3.CV)`.
 - Ensure both timers `TON_1` and `TON_2` are declared as `TON` function block instances.
 - Keep `PB2_Num` within 1–7; higher values default the time to 0 ms in this lookup-based program.
 - The factorial values are precomputed, so no `FOR` loop types need to match—this avoids prior INT/DINT loop bound errors.

@@ -3,6 +3,7 @@
 This repository stores the Connected Components Workbench (CCW) structured text logic for the factorial-timed stack light exercise along with supporting documentation.
 
 - `ST FILE` – structured text logic that counts qualified button presses, converts the counter CV to INT, maps factorial values (1–7) to preset millisecond times, and drives the green stack light for that duration when the red pushbutton is held.
+- `ST FILE` – structured text logic that counts qualified button presses, maps factorial values (1–7) to preset millisecond times, and drives the green stack light for that duration when the red pushbutton is held.
 - `IO_Variables.md` – reference for the inputs, outputs, counters, timers, and internal variables expected in CCW.
 - `CCW_Testing.md` – steps for verifying the program in CCW, including build, runtime checks, and troubleshooting tips.
 
