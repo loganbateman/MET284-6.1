@@ -12,7 +12,7 @@ The structured text program cannot be compiled in this environment because Conne
 1. Go online, then switch to **Run** mode.
 2. Watch the following tags in the variable monitor:
    - `_IO_EM_DI_00`, `_IO_EM_DI_01` (pushbuttons)
-   - `PB2_Num` (should increment with qualified green button presses)
+   - `PB2_Num` (DINT from `Counter3.CV`; should increment with qualified green button presses)
    - `FactorialResult` and `FactorialTime` (now set via CASE lookup; remain 0 unless `PB2_Num` is 1–7)
    - `TON_2.Q` and `_IO_EM_DO_00` (green stack light output)
 3. Test a few cases (lookup-driven, no FOR loop required):
@@ -24,7 +24,7 @@ The structured text program cannot be compiled in this environment because Conne
 4. Press and hold the red pushbutton (`_IO_EM_DI_01`): `TON_2` should hold `_IO_EM_DO_00` TRUE for `FactorialTime`. When the timer finishes, `Final_Reset` should pulse to clear the counters.
 
 ## Troubleshooting tips
-- If you still see a type error on `PB2_Num`, confirm it is declared as `INT` (or another integer type) and that `TO_INT(Counter3.CV)` is accepted in your controller revision. If not, replace `TO_INT` with an equivalent CCW-supported INT conversion.
+- If you see a type error on `PB2_Num`, confirm it is declared as `DINT` (to match `Counter3.CV`) and that the assignment `PB2_Num := Counter3.CV;` is used without extra conversions.
 - Ensure both timers `TON_1` and `TON_2` are declared as `TON` function block instances.
 - Keep `PB2_Num` within 1–7; higher values default the time to 0 ms in this lookup-based program.
 - The factorial values are precomputed, so no `FOR` loop types need to match—this avoids prior INT/DINT loop bound errors.

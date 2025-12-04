@@ -10,12 +10,8 @@ PB1_Reset := TON_1.Q;
 (* Count number of valid green button activations into Counter3 *)
 Counter3(PB1_Activate AND _IO_EM_DI_00, Final_Reset, 1000);
 
-(* Capture the Counter3 CV and coerce to INT for the rest of the logic *)
-PB2_Num := TO_INT(Counter3.CV);
-(* Capture the Counter3 CV directly (declared as DINT) for the rest of the logic *)
+(* Capture the Counter3 CV directly (PB2_Num declared as DINT) *)
 PB2_Num := Counter3.CV;
-(* Force the DINT CV from Counter3 into an INT for the rest of the logic *)
-PB2_Num := DINT_TO_INT(Counter3.CV);
 
 (* Calculate factorial of PB2_Num without a FOR loop (precomputed lookup) *)
 FactorialResult := 0;
@@ -32,18 +28,6 @@ IF PB2_Num > 0 THEN
         ELSE
             FactorialResult := 0;    FactorialTime := T#0ms;    (* out of range: safe default *)
     END_CASE;
-(* Calculate factorial of PB2_Num *)
-(* Use 1–7 only: 8! overflows INT (max 32767) *)
-IF (PB2_Num > 0) AND (PB2_Num <= 7) THEN
-    FactorialResult := 1;
-
-    FOR i := 1 TO PB2_Num DO
-        FactorialResult := FactorialResult * i;
-    END_FOR;
-
-    FactorialTime := T#1ms * FactorialResult;   (* interpret as milliseconds, e.g. 5! = 120ms *)
-ELSE
-    FactorialTime := T#0ms;                 (* safe default if out of range / zero *)
 END_IF;
 
 (* Red pushbutton: use factorial value as ON time for green stack light *)
